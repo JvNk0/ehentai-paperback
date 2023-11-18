@@ -22,7 +22,7 @@ import { parseArtist, parseLanguage, parsePages, parseTags, parseTitle } from ".
 import { modifySearch, resetSettings } from "./eHentaiSettings";
 
 export const eHentaiInfo: SourceInfo = {
-    version: "1.0.14",
+    version: "1.0.15",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -204,8 +204,8 @@ export class eHentai extends Source {
     }
 
     override async getSearchResults(query: SearchRequest, metadata: any): Promise<PagedResults> {
-        console.log(query)
-        console.log(metadata)
+        // console.log(query)
+        // console.log(metadata)
         const page = metadata?.page ?? 0
         let stopSearch = metadata?.stopSearch ?? false
         if(stopSearch) return createPagedResults({
@@ -228,7 +228,7 @@ export class eHentai extends Source {
             stopSearch = true
         } else {
             lastID = (results.slice(-1)[0] as any)?.mangaId.split('/')[0]
-            console.log(`[getSearchResults]: lastID:${lastID}`);
+            // console.log(`[getSearchResults]: lastID:${lastID}`);
         }
         
 

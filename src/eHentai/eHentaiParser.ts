@@ -53,7 +53,7 @@ export const parseLanguage = (tags: string[]): LanguageCode => {
 }
 
 async function getImage(url: string, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string> {
-    console.log(`[getImage]: url: ${url}`)
+    // console.log(`[getImage]: url: ${url}`)
     const request = createRequestObject({
         url: url,
         method: 'GET'
@@ -64,7 +64,6 @@ async function getImage(url: string, requestManager: RequestManager, cheerio: Ch
     return $('#img').attr('src') ?? ''
 }
 
-// async function parsePage(id: string, page: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
 async function parsePage(id: string, page: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
     const request = createRequestObject({
         url: `https://e-hentai.org/g/${id}/?p=${page}`,
@@ -81,9 +80,9 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
     for (const page of pageDivArr) {
         console.log(`[parsePage] (${pageDivArr.indexOf(page)}/${pageDivArr.length})`)
         let image = getImage($('a', page).attr('href') ?? '', requestManager, cheerio);
-        image.then((v) => {
-            console.log(`[parsePage] url?: ${$('a', page).attr('href')} image: ${v}`)
-        })
+        // image.then((v) => {
+        //     console.log(`[parsePage] url?: ${$('a', page).attr('href')} image: ${v}`)
+        // })
         pageArr.push(image)
         // pageArr.push($('a', page).attr('href') ?? "")
     }
@@ -93,13 +92,14 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
 }
 
 export async function parsePages(id: string, pageCount: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
+    const start = performance.now()
     console.log(`[parsePages]: id: ${id} pageCount: ${pageCount} pCount: ${pageCount/40}`)
     const pageArr: Promise<string[]>[] = []
 
     for (let i = 0; i <= pageCount / 40; i++) {
         pageArr.push(parsePage(id, i, requestManager, cheerio))
     }
-
+    console.log(`total time to process pages ${performance.now() - start}`)
     return Promise.all(pageArr).then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []))
 }
 
