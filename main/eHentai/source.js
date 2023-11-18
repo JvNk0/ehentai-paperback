@@ -371,7 +371,7 @@ const eHentaiHelper_1 = require("./eHentaiHelper");
 const eHentaiParser_1 = require("./eHentaiParser");
 const eHentaiSettings_1 = require("./eHentaiSettings");
 exports.eHentaiInfo = {
-    version: "1.0.18",
+    version: "1.0.19",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -793,6 +793,7 @@ async function parsePages(id, pageCount, requestManager, cheerio) {
     console.warn("<---- THIS IS THE START OF PROCESSING PAGES");
     const pageArr = [];
     for (let i = 0; i <= pageCount / 40; i++) {
+        console.log("sugma");
         pageArr.push(parsePage(id, i, requestManager, cheerio));
     }
     console.warn("<---- THIS IS THE END OF PROCESSING PAGES");
