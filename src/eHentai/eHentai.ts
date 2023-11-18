@@ -22,7 +22,7 @@ import { parseArtist, parseLanguage, parsePages, parseTags, parseTitle } from ".
 import { modifySearch, resetSettings } from "./eHentaiSettings";
 
 export const eHentaiInfo: SourceInfo = {
-    version: "1.0.13",
+    version: "1.0.14",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -59,7 +59,7 @@ export const capitalize = (tag: string): string => {
 
 export class eHentai extends Source {
     override requestManager: RequestManager = createRequestManager({
-        requestsPerSecond: 5,
+        requestsPerSecond: 15,
         requestTimeout: 1.5e3,
         interceptor: {
             interceptRequest: async (request: Request): Promise<Request> => {

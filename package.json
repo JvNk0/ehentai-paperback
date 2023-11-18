@@ -2,6 +2,7 @@
   "name": "extensions-main",
   "version": "1.0.0",
   "description": "The default source for Paperback, MangaDex",
+  "repositoryName": "Extensions e-Hentai (JvNk0 Fork)",
   "main": "index.js",
   "scripts": {
     "start": "tsc && node dist/api.js",
