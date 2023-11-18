@@ -78,6 +78,7 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
 
     for (const page of pageDivArr) {
         console.log(`[parsePage](${page}/${pageDivArr.length})`)
+        console.log(`[parsePage] image: ${getImage($('a', page).attr('href') ?? '', requestManager, cheerio)}`)
         pageArr.push(getImage($('a', page).attr('href') ?? '', requestManager, cheerio))
     }
 
