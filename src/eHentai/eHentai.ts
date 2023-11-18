@@ -223,7 +223,7 @@ export class eHentai extends Source {
             stopSearch = true
         } else {
             lastID = (results.slice(-1)[0] as any)?.mangaId.split('/')[0]
-           console.log(lastID);
+           console.log(`[getSearchResults]: lastID:${lastID}`);
         }
         
 
