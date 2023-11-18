@@ -77,8 +77,8 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
     const pageDivArr = $('div.gdtm').toArray()
 
     for (const page of pageDivArr) {
-        console.log(`[parsePage](${page}/${pageDivArr.length})`)
-        console.log(`[parsePage] image: ${getImage($('a', page).attr('href') ?? '', requestManager, cheerio)}`)
+        console.log(`[parsePage] (${pageDivArr.indexOf(page)}/${pageDivArr.length})`)
+        console.log(`[parsePage] url?: ${$('a', page).attr('href')} image: ${getImage($('a', page).attr('href') ?? '', requestManager, cheerio)}`)
         pageArr.push(getImage($('a', page).attr('href') ?? '', requestManager, cheerio))
     }
 

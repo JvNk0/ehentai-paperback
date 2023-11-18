@@ -22,7 +22,7 @@ import { parseArtist, parseLanguage, parsePages, parseTags, parseTitle } from ".
 import { modifySearch, resetSettings } from "./eHentaiSettings";
 
 export const eHentaiInfo: SourceInfo = {
-    version: "1.0.10",
+    version: "1.0.11",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -194,7 +194,12 @@ export class eHentai extends Source {
             id: chapterId,
             mangaId: mangaId,
             longStrip: false, // Change to true if other:webtoon?
-            pages: await parsePages(mangaId, parseInt(chapterId), this.requestManager, this.cheerio)
+            pages: await parsePages(
+                mangaId, 
+                parseInt(chapterId), 
+                this.requestManager, 
+                this.cheerio
+            )
         })
     }
 
@@ -223,7 +228,7 @@ export class eHentai extends Source {
             stopSearch = true
         } else {
             lastID = (results.slice(-1)[0] as any)?.mangaId.split('/')[0]
-           console.log(`[getSearchResults]: lastID:${lastID}`);
+            console.log(`[getSearchResults]: lastID:${lastID}`);
         }
         
 
