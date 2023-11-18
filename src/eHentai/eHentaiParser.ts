@@ -93,14 +93,13 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
 
 export async function parsePages(id: string, pageCount: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
     console.log(`[parsePages]: id: ${id} pageCount: ${pageCount} pCount: ${pageCount/40}`)
-    const start = process.hrtime.bigint();
+    console.warn("<---- THIS IS THE START OF PROCESSING PAGES")
     const pageArr: Promise<string[]>[] = []
     
     for (let i = 0; i <= pageCount / 40; i++) {
         pageArr.push(parsePage(id, i, requestManager, cheerio))
     }
-    const end = process.hrtime.bigint();
-    console.log(`process took ${ Number(end - start) * 1e+9 } seconds`)
+    console.warn("<---- THIS IS THE END OF PROCESSING PAGES")
     return Promise.all(pageArr).then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []))
 }
 
