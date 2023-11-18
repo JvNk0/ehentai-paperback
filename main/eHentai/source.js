@@ -371,7 +371,7 @@ const eHentaiHelper_1 = require("./eHentaiHelper");
 const eHentaiParser_1 = require("./eHentaiParser");
 const eHentaiSettings_1 = require("./eHentaiSettings");
 exports.eHentaiInfo = {
-    version: "1.0.14",
+    version: "1.0.15",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -535,8 +535,8 @@ class eHentai extends paperback_extensions_common_1.Source {
         });
     }
     async getSearchResults(query, metadata) {
-        console.log(query);
-        console.log(metadata);
+        // console.log(query)
+        // console.log(metadata)
         const page = metadata?.page ?? 0;
         let stopSearch = metadata?.stopSearch ?? false;
         if (stopSearch)
@@ -561,7 +561,7 @@ class eHentai extends paperback_extensions_common_1.Source {
         }
         else {
             lastID = results.slice(-1)[0]?.mangaId.split('/')[0];
-            console.log(`[getSearchResults]: lastID:${lastID}`);
+            // console.log(`[getSearchResults]: lastID:${lastID}`);
         }
         return createPagedResults({
             results: results,
@@ -757,7 +757,7 @@ const parseLanguage = (tags) => {
 };
 exports.parseLanguage = parseLanguage;
 async function getImage(url, requestManager, cheerio) {
-    console.log(`[getImage]: url: ${url}`);
+    // console.log(`[getImage]: url: ${url}`)
     const request = createRequestObject({
         url: url,
         method: 'GET'
@@ -766,7 +766,6 @@ async function getImage(url, requestManager, cheerio) {
     const $ = cheerio.load(data.data);
     return $('#img').attr('src') ?? '';
 }
-// async function parsePage(id: string, page: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
 async function parsePage(id, page, requestManager, cheerio) {
     const request = createRequestObject({
         url: `https://e-hentai.org/g/${id}/?p=${page}`,
@@ -780,9 +779,9 @@ async function parsePage(id, page, requestManager, cheerio) {
     for (const page of pageDivArr) {
         console.log(`[parsePage] (${pageDivArr.indexOf(page)}/${pageDivArr.length})`);
         let image = getImage($('a', page).attr('href') ?? '', requestManager, cheerio);
-        image.then((v) => {
-            console.log(`[parsePage] url?: ${$('a', page).attr('href')} image: ${v}`);
-        });
+        // image.then((v) => {
+        //     console.log(`[parsePage] url?: ${$('a', page).attr('href')} image: ${v}`)
+        // })
         pageArr.push(image);
         // pageArr.push($('a', page).attr('href') ?? "")
     }
@@ -790,11 +789,13 @@ async function parsePage(id, page, requestManager, cheerio) {
     // return pageArr
 }
 async function parsePages(id, pageCount, requestManager, cheerio) {
+    const start = performance.now();
     console.log(`[parsePages]: id: ${id} pageCount: ${pageCount} pCount: ${pageCount / 40}`);
     const pageArr = [];
     for (let i = 0; i <= pageCount / 40; i++) {
         pageArr.push(parsePage(id, i, requestManager, cheerio));
     }
+    console.log(`total time to process pages ${performance.now() - start}`);
     return Promise.all(pageArr).then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []));
 }
 exports.parsePages = parsePages;
