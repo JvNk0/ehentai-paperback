@@ -77,6 +77,7 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
     const pageDivArr = $('div.gdtm').toArray()
 
     for (const page of pageDivArr) {
+        console.log(`[parsePage](${page}/${pageDivArr.length})`)
         pageArr.push(getImage($('a', page).attr('href') ?? '', requestManager, cheerio))
     }
 
@@ -84,6 +85,7 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
 }
 
 export async function parsePages(id: string, pageCount: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
+    console.log(`[parsePages]: id: ${id} pageCount: ${pageCount} pCount: ${pageCount/40}`)
     const pageArr: Promise<string[]>[] = []
 
     for (let i = 0; i <= pageCount / 40; i++) {
