@@ -4,7 +4,6 @@ import {
     RequestManager,
     TagSection
 } from 'paperback-extensions-common';
-import { performance } from "perf_hooks";
 
 export const parseArtist = (tags: string[]): string | undefined => {
     const artist = tags.filter(tag => tag.startsWith('artist:')).map(tag => tag.substring(7))
@@ -93,14 +92,14 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
 }
 
 export async function parsePages(id: string, pageCount: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
-    const start = performance.now()
+    console.time("parsePages");
     console.log(`[parsePages]: id: ${id} pageCount: ${pageCount} pCount: ${pageCount/40}`)
     const pageArr: Promise<string[]>[] = []
 
     for (let i = 0; i <= pageCount / 40; i++) {
         pageArr.push(parsePage(id, i, requestManager, cheerio))
     }
-    console.log(`total time to process pages ${performance.now() - start}`)
+    console.timeEnd("parsePages")
     return Promise.all(pageArr).then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []))
 }
 
