@@ -97,6 +97,7 @@ export async function parsePages(id: string, pageCount: number, requestManager: 
     const pageArr: Promise<string[]>[] = []
     
     for (let i = 0; i <= pageCount / 40; i++) {
+        console.log("sugma")
         pageArr.push(parsePage(id, i, requestManager, cheerio))
     }
     console.warn("<---- THIS IS THE END OF PROCESSING PAGES")
