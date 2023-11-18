@@ -74,19 +74,22 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
     const data = await requestManager.schedule(request, 1)
     const $ = cheerio.load(data.data)
 
-    // const pageArr: Promise<string>[] = []
-    const pageArr: string[] = []
+    const pageArr: Promise<string>[] = []
+    // const pageArr: string[] = []
     const pageDivArr = $('div.gdtm').toArray()
 
     for (const page of pageDivArr) {
         console.log(`[parsePage] (${pageDivArr.indexOf(page)}/${pageDivArr.length})`)
-        console.log(`[parsePage] url?: ${$('a', page).attr('href')} image: ${getImage($('a', page).attr('href') ?? '', requestManager, cheerio)}`)
-        // pageArr.push(getImage($('a', page).attr('href') ?? '', requestManager, cheerio))
-        pageArr.push($('a', page).attr('href') ?? "")
+        let image = getImage($('a', page).attr('href') ?? '', requestManager, cheerio);
+        image.then((v) => {
+            console.log(`[parsePage] url?: ${$('a', page).attr('href')} image: ${v}`)
+        })
+        pageArr.push(image)
+        // pageArr.push($('a', page).attr('href') ?? "")
     }
 
-    // return Promise.all(pageArr)
-    return pageArr
+    return Promise.all(pageArr)
+    // return pageArr
 }
 
 export async function parsePages(id: string, pageCount: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
