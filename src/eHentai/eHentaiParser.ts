@@ -1,9 +1,9 @@
+import { CheerioAPI } from "cheerio";
 import {
     LanguageCode,
     RequestManager,
     TagSection
-} from 'paperback-extensions-common'
-import { CheerioAPI } from "cheerio";
+} from 'paperback-extensions-common';
 
 export const parseArtist = (tags: string[]): string | undefined => {
     const artist = tags.filter(tag => tag.startsWith('artist:')).map(tag => tag.substring(7))
@@ -53,6 +53,7 @@ export const parseLanguage = (tags: string[]): LanguageCode => {
 }
 
 async function getImage(url: string, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string> {
+    console.log(`[getImage]: url: ${url}`)
     const request = createRequestObject({
         url: url,
         method: 'GET'

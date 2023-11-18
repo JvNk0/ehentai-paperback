@@ -22,7 +22,7 @@ import { parseArtist, parseLanguage, parsePages, parseTags, parseTitle } from ".
 import { modifySearch, resetSettings } from "./eHentaiSettings";
 
 export const eHentaiInfo: SourceInfo = {
-    version: "1.0.7",
+    version: "1.0.8",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -59,7 +59,7 @@ export const capitalize = (tag: string): string => {
 
 export class eHentai extends Source {
     override requestManager: RequestManager = createRequestManager({
-        requestsPerSecond: 3,
+        requestsPerSecond: 5,
         requestTimeout: 1.5e3,
         interceptor: {
             interceptRequest: async (request: Request): Promise<Request> => {
@@ -139,7 +139,7 @@ export class eHentai extends Source {
             results: results,
             metadata: {
                 page: page + 1,
-		stopSearch: stopSearch
+                stopSearch: stopSearch
             }
         })
     }
@@ -158,7 +158,7 @@ export class eHentai extends Source {
     }
     
     override async getMangaDetails(mangaId: string): Promise<SourceManga | Manga> {
-        console.log(mangaId)
+        console.log(`[getMangaDetails]: mangaID:${mangaId}`)
         const data = (await getGalleryData([mangaId], this.requestManager))[0]
 
         return createManga({
