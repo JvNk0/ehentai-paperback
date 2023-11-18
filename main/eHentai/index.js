@@ -371,7 +371,7 @@ const eHentaiHelper_1 = require("./eHentaiHelper");
 const eHentaiParser_1 = require("./eHentaiParser");
 const eHentaiSettings_1 = require("./eHentaiSettings");
 exports.eHentaiInfo = {
-    version: "1.0.15",
+    version: "1.0.16",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -789,13 +789,11 @@ async function parsePage(id, page, requestManager, cheerio) {
     // return pageArr
 }
 async function parsePages(id, pageCount, requestManager, cheerio) {
-    console.time("parsePages");
     console.log(`[parsePages]: id: ${id} pageCount: ${pageCount} pCount: ${pageCount / 40}`);
     const pageArr = [];
     for (let i = 0; i <= pageCount / 40; i++) {
         pageArr.push(parsePage(id, i, requestManager, cheerio));
     }
-    console.timeEnd("parsePages");
     return Promise.all(pageArr).then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []));
 }
 exports.parsePages = parsePages;
