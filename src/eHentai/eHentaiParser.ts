@@ -4,6 +4,7 @@ import {
     RequestManager,
     TagSection
 } from 'paperback-extensions-common';
+import { performance } from "perf_hooks";
 
 export const parseArtist = (tags: string[]): string | undefined => {
     const artist = tags.filter(tag => tag.startsWith('artist:')).map(tag => tag.substring(7))
