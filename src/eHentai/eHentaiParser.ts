@@ -92,14 +92,12 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
 }
 
 export async function parsePages(id: string, pageCount: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
-    console.time("parsePages");
     console.log(`[parsePages]: id: ${id} pageCount: ${pageCount} pCount: ${pageCount/40}`)
     const pageArr: Promise<string[]>[] = []
 
     for (let i = 0; i <= pageCount / 40; i++) {
         pageArr.push(parsePage(id, i, requestManager, cheerio))
     }
-    console.timeEnd("parsePages")
     return Promise.all(pageArr).then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []))
 }
 
