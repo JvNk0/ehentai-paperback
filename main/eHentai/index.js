@@ -371,7 +371,7 @@ const eHentaiHelper_1 = require("./eHentaiHelper");
 const eHentaiParser_1 = require("./eHentaiParser");
 const eHentaiSettings_1 = require("./eHentaiSettings");
 exports.eHentaiInfo = {
-    version: "1.0.23",
+    version: "1.0.24",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -528,7 +528,7 @@ class eHentai extends paperback_extensions_common_1.Source {
     }
     async getChapterDetails(mangaId, chapterId) {
         const pages = await (0, eHentaiParser_1.parsePages)(mangaId, parseInt(chapterId), this.requestManager, this.cheerio);
-        console.log(pages);
+        console.warn(pages);
         return createChapterDetails({
             id: chapterId,
             mangaId: mangaId,
@@ -794,14 +794,14 @@ async function parsePage(id, page, requestManager, cheerio) {
 }
 async function parsePages(id, pageCount, requestManager, cheerio) {
     console.log(`[parsePages]: id: ${id} pageCount: ${pageCount} pCount: ${pageCount / 40}`);
-    console.warn(`<---- THIS IS THE START OF PROCESSING PAGES: ${id} ${pageCount}`);
+    // console.warn(`<---- THIS IS THE START OF PROCESSING PAGES: ${id} ${pageCount}`)
     const pageArr = [];
     for (let i = 0; i <= pageCount / 40; i++) {
         pageArr.push(parsePage(id, i, requestManager, cheerio));
     }
-    console.warn(`<---- THIS IS THE END OF PROCESSING PAGES: ${id} ${pageCount}`);
+    // console.warn(`<---- THIS IS THE END OF PROCESSING PAGES: ${id} ${pageCount}`)
     const pages = Promise.all(pageArr);
-    console.log(await pages);
+    console.warn(await pages);
     return pages.then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []));
 }
 exports.parsePages = parsePages;
