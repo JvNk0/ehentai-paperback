@@ -371,7 +371,7 @@ const eHentaiHelper_1 = require("./eHentaiHelper");
 const eHentaiParser_1 = require("./eHentaiParser");
 const eHentaiSettings_1 = require("./eHentaiSettings");
 exports.eHentaiInfo = {
-    version: "1.0.21",
+    version: "1.0.22",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -786,7 +786,7 @@ async function parsePage(id, page, requestManager, cheerio) {
         pageArr.push(image);
         // pageArr.push($('a', page).attr('href') ?? "")
     }
-    console.warn(`<---- THIS IS THE START OF PROCESSING PAGE: ${id} ${page}`);
+    console.warn(`<---- THIS IS THE END OF PROCESSING PAGE: ${id} ${page}`);
     return Promise.all(pageArr);
     // return pageArr
 }
@@ -798,7 +798,11 @@ async function parsePages(id, pageCount, requestManager, cheerio) {
         pageArr.push(parsePage(id, i, requestManager, cheerio));
     }
     console.warn(`<---- THIS IS THE END OF PROCESSING PAGES: ${id} ${pageCount}`);
-    return Promise.all(pageArr).then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []));
+    const pages = Promise.all(pageArr);
+    console.log(pages);
+    const pages2 = pages.then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []));
+    console.log(pages2);
+    return pages2;
 }
 exports.parsePages = parsePages;
 const namespaceHasTags = (namespace, tags) => { return tags.filter(tag => tag.startsWith(`${namespace}:`)).length != 0; };
