@@ -22,7 +22,7 @@ import { parseArtist, parseLanguage, parsePages, parseTags, parseTitle } from ".
 import { modifySearch, resetSettings } from "./eHentaiSettings";
 
 export const eHentaiInfo: SourceInfo = {
-    version: "1.0.22",
+    version: "1.0.23",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -190,16 +190,18 @@ export class eHentai extends Source {
     }
     
     override async getChapterDetails(mangaId: string, chapterId: string): Promise<ChapterDetails> {
+        const pages = await parsePages(
+            mangaId, 
+            parseInt(chapterId), 
+            this.requestManager, 
+            this.cheerio
+        );
+        console.log(pages)
         return createChapterDetails({
             id: chapterId,
             mangaId: mangaId,
             longStrip: false, // Change to true if other:webtoon?
-            pages: await parsePages(
-                mangaId, 
-                parseInt(chapterId), 
-                this.requestManager, 
-                this.cheerio
-            )
+            pages: pages 
         })
     }
 

@@ -102,10 +102,8 @@ export async function parsePages(id: string, pageCount: number, requestManager: 
     }
     console.warn(`<---- THIS IS THE END OF PROCESSING PAGES: ${id} ${pageCount}`)
     const pages = Promise.all(pageArr);
-    console.log(pages);
-    const pages2 = pages.then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []))
-    console.log(pages2)
-    return pages2
+    console.log(await pages);
+    return pages.then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []))
 }
 
 const namespaceHasTags = (namespace: string, tags: string[]): boolean => { return tags.filter(tag => tag.startsWith(`${namespace}:`)).length != 0 }
