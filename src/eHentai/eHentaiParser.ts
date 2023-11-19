@@ -65,6 +65,7 @@ async function getImage(url: string, requestManager: RequestManager, cheerio: Ch
 }
 
 async function parsePage(id: string, page: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
+    console.warn("<---- THIS IS THE START OF PROCESSING PAGES", id, page)
     const request = createRequestObject({
         url: `https://e-hentai.org/g/${id}/?p=${page}`,
         method: 'GET'
@@ -80,13 +81,13 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
     for (const page of pageDivArr) {
         console.log(`[parsePage] (${pageDivArr.indexOf(page)}/${pageDivArr.length})`)
         let image = getImage($('a', page).attr('href') ?? '', requestManager, cheerio);
-        // image.then((v) => {
-        //     console.log(`[parsePage] url?: ${$('a', page).attr('href')} image: ${v}`)
-        // })
+        image.then((v) => {
+            console.log(`[parsePage] url?: ${$('a', page).attr('href')} image: ${v}`)
+        })
         pageArr.push(image)
         // pageArr.push($('a', page).attr('href') ?? "")
     }
-
+    console.warn("<---- THIS IS THE END OF PROCESSING PAGES", id, page)
     return Promise.all(pageArr)
     // return pageArr
 }
@@ -97,7 +98,6 @@ export async function parsePages(id: string, pageCount: number, requestManager: 
     const pageArr: Promise<string[]>[] = []
     
     for (let i = 0; i <= pageCount / 40; i++) {
-        console.log("sugma")
         pageArr.push(parsePage(id, i, requestManager, cheerio))
     }
     console.warn("<---- THIS IS THE END OF PROCESSING PAGES")
