@@ -87,7 +87,7 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
         pageArr.push(image)
         // pageArr.push($('a', page).attr('href') ?? "")
     }
-    console.warn(`<---- THIS IS THE START OF PROCESSING PAGE: ${id} ${page}`)
+    console.warn(`<---- THIS IS THE END OF PROCESSING PAGE: ${id} ${page}`)
     return Promise.all(pageArr)
     // return pageArr
 }
@@ -101,7 +101,11 @@ export async function parsePages(id: string, pageCount: number, requestManager: 
         pageArr.push(parsePage(id, i, requestManager, cheerio))
     }
     console.warn(`<---- THIS IS THE END OF PROCESSING PAGES: ${id} ${pageCount}`)
-    return Promise.all(pageArr).then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []))
+    const pages = Promise.all(pageArr);
+    console.log(pages);
+    const pages2 = pages.then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []))
+    console.log(pages2)
+    return pages2
 }
 
 const namespaceHasTags = (namespace: string, tags: string[]): boolean => { return tags.filter(tag => tag.startsWith(`${namespace}:`)).length != 0 }
