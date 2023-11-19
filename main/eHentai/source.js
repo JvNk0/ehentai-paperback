@@ -371,7 +371,7 @@ const eHentaiHelper_1 = require("./eHentaiHelper");
 const eHentaiParser_1 = require("./eHentaiParser");
 const eHentaiSettings_1 = require("./eHentaiSettings");
 exports.eHentaiInfo = {
-    version: "1.0.19",
+    version: "1.0.20",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -767,6 +767,7 @@ async function getImage(url, requestManager, cheerio) {
     return $('#img').attr('src') ?? '';
 }
 async function parsePage(id, page, requestManager, cheerio) {
+    console.warn("<---- THIS IS THE START OF PROCESSING PAGES", id, page);
     const request = createRequestObject({
         url: `https://e-hentai.org/g/${id}/?p=${page}`,
         method: 'GET'
@@ -779,12 +780,13 @@ async function parsePage(id, page, requestManager, cheerio) {
     for (const page of pageDivArr) {
         console.log(`[parsePage] (${pageDivArr.indexOf(page)}/${pageDivArr.length})`);
         let image = getImage($('a', page).attr('href') ?? '', requestManager, cheerio);
-        // image.then((v) => {
-        //     console.log(`[parsePage] url?: ${$('a', page).attr('href')} image: ${v}`)
-        // })
+        image.then((v) => {
+            console.log(`[parsePage] url?: ${$('a', page).attr('href')} image: ${v}`);
+        });
         pageArr.push(image);
         // pageArr.push($('a', page).attr('href') ?? "")
     }
+    console.warn("<---- THIS IS THE END OF PROCESSING PAGES", id, page);
     return Promise.all(pageArr);
     // return pageArr
 }
@@ -793,7 +795,6 @@ async function parsePages(id, pageCount, requestManager, cheerio) {
     console.warn("<---- THIS IS THE START OF PROCESSING PAGES");
     const pageArr = [];
     for (let i = 0; i <= pageCount / 40; i++) {
-        console.log("sugma");
         pageArr.push(parsePage(id, i, requestManager, cheerio));
     }
     console.warn("<---- THIS IS THE END OF PROCESSING PAGES");
