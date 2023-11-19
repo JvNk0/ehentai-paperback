@@ -371,7 +371,7 @@ const eHentaiHelper_1 = require("./eHentaiHelper");
 const eHentaiParser_1 = require("./eHentaiParser");
 const eHentaiSettings_1 = require("./eHentaiSettings");
 exports.eHentaiInfo = {
-    version: "1.0.20",
+    version: "1.0.21",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -767,7 +767,7 @@ async function getImage(url, requestManager, cheerio) {
     return $('#img').attr('src') ?? '';
 }
 async function parsePage(id, page, requestManager, cheerio) {
-    console.warn("<---- THIS IS THE START OF PROCESSING PAGES", id, page);
+    console.warn(`<---- THIS IS THE START OF PROCESSING PAGE: ${id} ${page}`);
     const request = createRequestObject({
         url: `https://e-hentai.org/g/${id}/?p=${page}`,
         method: 'GET'
@@ -786,18 +786,18 @@ async function parsePage(id, page, requestManager, cheerio) {
         pageArr.push(image);
         // pageArr.push($('a', page).attr('href') ?? "")
     }
-    console.warn("<---- THIS IS THE END OF PROCESSING PAGES", id, page);
+    console.warn(`<---- THIS IS THE START OF PROCESSING PAGE: ${id} ${page}`);
     return Promise.all(pageArr);
     // return pageArr
 }
 async function parsePages(id, pageCount, requestManager, cheerio) {
     console.log(`[parsePages]: id: ${id} pageCount: ${pageCount} pCount: ${pageCount / 40}`);
-    console.warn("<---- THIS IS THE START OF PROCESSING PAGES");
+    console.warn(`<---- THIS IS THE START OF PROCESSING PAGES: ${id} ${pageCount}`);
     const pageArr = [];
     for (let i = 0; i <= pageCount / 40; i++) {
         pageArr.push(parsePage(id, i, requestManager, cheerio));
     }
-    console.warn("<---- THIS IS THE END OF PROCESSING PAGES");
+    console.warn(`<---- THIS IS THE END OF PROCESSING PAGES: ${id} ${pageCount}`);
     return Promise.all(pageArr).then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []));
 }
 exports.parsePages = parsePages;
