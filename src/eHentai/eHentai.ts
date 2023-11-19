@@ -22,7 +22,7 @@ import { parseArtist, parseLanguage, parsePages, parseTags, parseTitle } from ".
 import { modifySearch, resetSettings } from "./eHentaiSettings";
 
 export const eHentaiInfo: SourceInfo = {
-    version: "1.0.20",
+    version: "1.0.21",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",

@@ -65,7 +65,7 @@ async function getImage(url: string, requestManager: RequestManager, cheerio: Ch
 }
 
 async function parsePage(id: string, page: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
-    console.warn("<---- THIS IS THE START OF PROCESSING PAGES", id, page)
+    console.warn(`<---- THIS IS THE START OF PROCESSING PAGE: ${id} ${page}`)
     const request = createRequestObject({
         url: `https://e-hentai.org/g/${id}/?p=${page}`,
         method: 'GET'
@@ -87,20 +87,20 @@ async function parsePage(id: string, page: number, requestManager: RequestManage
         pageArr.push(image)
         // pageArr.push($('a', page).attr('href') ?? "")
     }
-    console.warn("<---- THIS IS THE END OF PROCESSING PAGES", id, page)
+    console.warn(`<---- THIS IS THE START OF PROCESSING PAGE: ${id} ${page}`)
     return Promise.all(pageArr)
     // return pageArr
 }
 
 export async function parsePages(id: string, pageCount: number, requestManager: RequestManager, cheerio: CheerioAPI): Promise<string[]> {
     console.log(`[parsePages]: id: ${id} pageCount: ${pageCount} pCount: ${pageCount/40}`)
-    console.warn("<---- THIS IS THE START OF PROCESSING PAGES")
+    console.warn(`<---- THIS IS THE START OF PROCESSING PAGES: ${id} ${pageCount}`)
     const pageArr: Promise<string[]>[] = []
     
     for (let i = 0; i <= pageCount / 40; i++) {
         pageArr.push(parsePage(id, i, requestManager, cheerio))
     }
-    console.warn("<---- THIS IS THE END OF PROCESSING PAGES")
+    console.warn(`<---- THIS IS THE END OF PROCESSING PAGES: ${id} ${pageCount}`)
     return Promise.all(pageArr).then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []))
 }
 
