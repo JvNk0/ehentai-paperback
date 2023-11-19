@@ -371,7 +371,7 @@ const eHentaiHelper_1 = require("./eHentaiHelper");
 const eHentaiParser_1 = require("./eHentaiParser");
 const eHentaiSettings_1 = require("./eHentaiSettings");
 exports.eHentaiInfo = {
-    version: "1.0.22",
+    version: "1.0.23",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -527,11 +527,13 @@ class eHentai extends paperback_extensions_common_1.Source {
             })];
     }
     async getChapterDetails(mangaId, chapterId) {
+        const pages = await (0, eHentaiParser_1.parsePages)(mangaId, parseInt(chapterId), this.requestManager, this.cheerio);
+        console.log(pages);
         return createChapterDetails({
             id: chapterId,
             mangaId: mangaId,
             longStrip: false,
-            pages: await (0, eHentaiParser_1.parsePages)(mangaId, parseInt(chapterId), this.requestManager, this.cheerio)
+            pages: pages
         });
     }
     async getSearchResults(query, metadata) {
@@ -799,10 +801,8 @@ async function parsePages(id, pageCount, requestManager, cheerio) {
     }
     console.warn(`<---- THIS IS THE END OF PROCESSING PAGES: ${id} ${pageCount}`);
     const pages = Promise.all(pageArr);
-    console.log(pages);
-    const pages2 = pages.then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []));
-    console.log(pages2);
-    return pages2;
+    console.log(await pages);
+    return pages.then(pages => pages.reduce((prev, cur) => [...prev, ...cur], []));
 }
 exports.parsePages = parsePages;
 const namespaceHasTags = (namespace, tags) => { return tags.filter(tag => tag.startsWith(`${namespace}:`)).length != 0; };
