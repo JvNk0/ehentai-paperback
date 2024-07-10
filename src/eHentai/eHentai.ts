@@ -22,7 +22,7 @@ import { parseArtist, parseLanguage, parsePages, parseTags, parseTitle } from ".
 import { modifySearch, resetSettings } from "./eHentaiSettings";
 
 export const eHentaiInfo: SourceInfo = {
-    version: "1.0.24",
+    version: "1.0.25",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -171,6 +171,7 @@ export class eHentai extends Source {
             artist: parseArtist(data.tags),
             tags: parseTags([data.category, ...data.tags]),
             hentai: !(data.category == 'Non-H' || data.tags.includes('other:non-nude')),
+            desc: `Pages ${data.filecount ?? 0}`,
             // relatedIds: [], // possibly parent_gid and/or first_gid
             lastUpdate: new Date(parseInt(data.posted) * 1000)
         })
