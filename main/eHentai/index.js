@@ -371,7 +371,7 @@ const eHentaiHelper_1 = require("./eHentaiHelper");
 const eHentaiParser_1 = require("./eHentaiParser");
 const eHentaiSettings_1 = require("./eHentaiSettings");
 exports.eHentaiInfo = {
-    version: "1.0.24",
+    version: "1.0.25",
     name: "E-Hentai",
     icon: "icon.png",
     author: "loik9081 | Jpuf",
@@ -511,6 +511,7 @@ class eHentai extends paperback_extensions_common_1.Source {
             artist: (0, eHentaiParser_1.parseArtist)(data.tags),
             tags: (0, eHentaiParser_1.parseTags)([data.category, ...data.tags]),
             hentai: !(data.category == 'Non-H' || data.tags.includes('other:non-nude')),
+            desc: `Pages ${data.filecount ?? 0}`,
             // relatedIds: [], // possibly parent_gid and/or first_gid
             lastUpdate: new Date(parseInt(data.posted) * 1000)
         });
